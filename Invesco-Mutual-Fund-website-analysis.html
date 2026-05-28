@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Invesco Mutual Fund India – Official Investor Portal</title>
+<meta name="description" content="Invesco Mutual Fund India - Invest in Equity, Debt, Hybrid funds. View NAV, performance, download factsheets." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.mfapi.in">
+<link rel="preconnect" href="https://www.invescomutualfund.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { color-scheme: light; }
+  *{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  body { background:linear-gradient(180deg,#FFFFFF 0%,#F8FAFC 100%); color:#0F172A; }
+  .display{font-family:'Manrope',Inter,sans-serif}
+  h1,h2,h3,.navy{color:#00205B}
+  .glass{ background:#FFFFFF; border:1px solid #E2E8F0; box-shadow:0 1px 3px rgba(15,23,42,0.04),0 4px 12px rgba(15,23,42,0.04); }
+  .glass-strong{ background:#FFFFFF; border:1px solid #E2E8F0; box-shadow:0 4px 16px rgba(15,23,42,0.06),0 2px 6px rgba(15,23,42,0.04); }
+  .mesh{ background:
+    radial-gradient(40% 40% at 10% 10%, rgba(0,103,177,.08), transparent 60%),
+    radial-gradient(35% 45% at 90% 20%, rgba(0,163,224,.07), transparent 60%),
+    radial-gradient(50% 50% at 50% 100%, rgba(0,32,91,.05), transparent 60%),
+    linear-gradient(180deg,#FFFFFF 0%,#F8FAFC 100%);
+    animation: meshShift 20s ease-in-out infinite alternate;
+  }
+  @keyframes meshShift{0%{filter:hue-rotate(0deg) saturate(1)}100%{filter:hue-rotate(5deg) saturate(1.05)}}
+  .shimmer{ position:relative; overflow:hidden}
+  .shimmer::after{ content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(0,0,0,.05),transparent); transform:translateX(-100%); animation:shimmer 2s infinite}
+  @keyframes shimmer{100%{transform:translateX(100%)}}
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+  .focus-ring:focus{ outline:2px solid #0067B1; outline-offset:2px }
+  .pill{ background:#F1F5F9; border:1px solid #E2E8F0}
+  .tab-active{ background:rgba(0,103,177,.10); border-color:rgba(0,103,177,.4); color:#004B8D}
+  .step-active{ background:linear-gradient(135deg,#0067B1,#00A3E0); color:white }
+  .step-done{ background:rgba(0,103,177,.10); border-color:#0067B1; color:#004B8D}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#F8FAFC}
+  ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:999px;border:2px solid #F8FAFC}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0}
+
+  .btn-primary{ position:relative; overflow:hidden; transition:all .3s cubic-bezier(0.4,0,0.2,1); background:linear-gradient(135deg,#00205B,#0067B1); background-size:200% auto; isolation:isolate; color:white; }
+  .btn-primary:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 10px 24px rgba(0,103,177,.25), 0 0 16px rgba(0,163,224,.18); background-position:right center; }
+  .btn-primary::before{ content:''; position:absolute; inset:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); transition:left .6s; pointer-events:none; z-index:1; }
+  .btn-primary:hover::before{ left:100%; }
+  .btn-primary:active{ transform:scale(.98); }
+  
+  .btn-secondary{ position:relative; overflow:hidden; transition:all .3s; }
+  .btn-secondary::before{ content:''; position:absolute; inset:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,rgba(0,103,177,.06),rgba(0,163,224,.08)); transition:left .35s; z-index:-1; }
+  .btn-secondary:hover{ transform:translateY(-1px); border-color:rgba(0,103,177,.5); background-color:#F8FAFC; }
+  .btn-secondary:hover::before{ left:0; }
+
+  .btn-icon{ transition:all .3s; }
+  .btn-icon:hover{ transform:scale(1.06); background:#F1F5F9 !important; box-shadow:0 0 0 4px rgba(0,103,177,.12); }
+
+  .card-hover{ transition:all .3s; }
+  .card-hover:hover{ transform:translateY(-4px); box-shadow:0 20px 40px rgba(0,32,91,.08), 0 0 0 1px rgba(0,103,177,.2); border-color:rgba(0,103,177,.35) !important; }
+
+  button:focus-visible, a:focus-visible{ outline:2px solid #0067B1; outline-offset:3px; border-radius:12px; }
+
+  .form-input{ transition:all .25s ease; background:white; }
+  .form-input:focus{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,103,177,.12), 0 0 0 2px rgba(0,103,177,.18); border-color:#0067B1 !important; }
+  .input-icon{ transition:color .25s ease; }
+  .input-group:focus-within .input-icon{ color:#0067B1; }
+  
+  .help-pulse{position:relative}
+  .help-pulse::after{content:'';position:absolute;inset:-4px;border-radius:9999px;background:linear-gradient(90deg,#0067B1,#00A3E0);opacity:.3;animation:pulseRing 2s infinite;z-index:-1}
+  @keyframes pulseRing{0%{transform:scale(.9);opacity:.5}70%,100%{transform:scale(1.3);opacity:0}}
+
+  .message-in{animation:msgIn .3s ease}
+  @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .typing-dot{width:6px;height:6px;border-radius:50%;background:#64748B;animation:typingBounce 1.4s infinite}
+  .typing-dot:nth-child(2){animation-delay:.2s}
+  .typing-dot:nth-child(3){animation-delay:.4s}
+  @keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.6}30%{transform:translateY(-4px);opacity:1}}
+
+  .skeleton{ background:linear-gradient(90deg,#f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; }
+
+  .text-slate-100{color:#0F172A !important}
+  .text-slate-200{color:#1E293B !important}
+  .text-slate-300{color:#334155 !important}
+  .text-slate-400{color:#475569 !important}
+  .text-slate-500{color:#64748B !important}
+  .toast-enter{animation:toastIn .3s ease}
+  .toast-exit{animation:toastOut .3s ease forwards}
+  @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes toastOut{to{opacity:0;transform:translateY(10px)}}
+</style>
+</head>
+<body class="min-h-screen text-slate-800 selection:bg-[#00A3E0]/20">
+  <div class="fixed inset-0 mesh"></div>
+  <div class="fixed inset-0 bg-[linear-gradient(to_top,rgba(248,250,252,.9),transparent_40%)] pointer-events-none"></div>
+
+  <!-- Top Utility Bar -->
+  <div class="w-full h-8 bg-[#00205B] text-white text-[12px] relative z-[70]">
+    <div class="max-w-[1280px] mx-auto px-4 md:px-8 h-full flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline opacity-80">Toll Free:</span>
+        <a href="tel:18002090007" class="hover:underline">1800-209-0007</a>
+        <span class="opacity-50">|</span>
+        <a href="tel:18002090008" class="hover:underline">1800-209-0008</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="utilDownloads" class="hover:underline opacity-90 hover:opacity-100">Downloads</button>
+        <button id="utilNav" class="hover:underline opacity-90 hover:opacity-100">NAV & Dividend</button>
+        <button id="utilContact" class="hover:underline opacity-90 hover:opacity-100">Contact Us</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-[60] border-b border-slate-200/80">
+    <div class="absolute inset-0 bg-white/85 backdrop-blur-2xl"></div>
+    <div class="relative max-w-[1280px] mx-auto px-4 md:px-8 h-[68px] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-2xl overflow-hidden shadow-lg shadow-[#0067B1]/15 ring-1 ring-[#00205B]/15 bg-white flex items-center justify-center" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="7" fill="#00205B"/>
+            <path d="M7 20.5L13 14.5L17 18.5L25 10.5" stroke="#00A3E0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20.5 10.5H25V15" stroke="#00A3E0" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="display font-extrabold tracking-tight leading-none text-[18px] navy">Invesco Mutual Fund</div>
+          <div class="text-[11px] text-slate-500 -mt-0.5">Investor Portal • India</div>
+        </div>
+      <div class="flex items-center gap-2">
+        <button id="supportBtn" aria-label="Open support" class="btn-secondary hidden sm:inline-flex items-center gap-2 px-3 h-9 rounded-xl border border-slate-200 text-[13px] font-medium">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V5a2 2 0 0 1 2-2h14a4 4 0 0 1 4 4z"/></svg>
+          Support
+        </button>
+        <button id="loginBtn" aria-label="Login to your account" class="btn-primary inline-flex items-center gap-2 px-4 h-9 rounded-xl text-[13px] font-semibold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13 12H3"/></svg>
+          <span id="loginBtnText">Login</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative max-w-[1280px] mx-auto px-4 md:px-8 py-8 md:py-12">
+    <!-- Hero -->
+    <section class="grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full pill text-[11px] font-medium mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#00A3E0] animate-pulse"></span>
+          SEBI Registered • AMFI Certified
+        </div>
+        <h1 class="display text-[34px] md:text-[48px] font-extrabold leading-[1.05] navy">
+          Invest with <span class="text-[#0067B1]">confidence.</span><br class="hidden md:block"/> Grow with Invesco.
+        </h1>
+        <p class="mt-4 text-slate-600 text-[15px] md:text-[17px] max-w-xl">Explore Invesco India Equity, Debt and Hybrid funds. Check live NAVs, 1-day to 5-year performance, and download official factsheets – all in one secure portal.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button id="exploreFundsBtn" class="btn-primary px-5 h-11 rounded-xl font-semibold text-[14px]" aria-label="Explore funds">Explore Funds</button>
+          <button id="heroSipBtn" class="btn-secondary px-5 h-11 rounded-xl font-semibold text-[14px] border border-slate-200 inline-flex items-center" aria-label="Open SIP calculator">SIP Calculator</button>
+          <button id="openAccountBtn" class="btn-secondary px-5 h-11 rounded-xl font-semibold text-[14px] border border-slate-200 inline-flex items-center" aria-label="Open Account">Open Account</button>
+        </div>
+        <div class="mt-6 flex items-center gap-6 text-[12px] text-slate-500">
+          <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0067B1" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10z"/></svg> Bank-grade security</div>
+          <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0067B1" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg> Live MFAPI data</div>
+        </div>
+      <div class="glass-strong rounded-[28px] p-[1px]">
+        <div class="rounded-[26px] bg-white p-6 md:p-7">
+          <div class="flex items-center justify-between mb-4">
+            <div class="font-semibold navy">Quick NAV Check</div>
+            <div class="text-[11px] px-2 py-1 rounded-lg bg-[#00205B] text-white">BSE/NSE</div>
+          </div>
+          <div id="quickNav" class="space-y-3"></div>
+          <div class="mt-4 text-[11px] text-slate-500">Data refreshes every 6 hours via MFAPI. For official NAVs, visit invescomutualfund.com</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explore Funds -->
+    <section id="explore" class="mt-14 md:mt-20">
+      <div>
+        <h2 class="display text-[26px] md:text-[32px] font-bold navy">Explore Invesco Funds</h2>
+        <p class="text-slate-600 mt-1">Live performance powered by MFAPI • Cached for speed</p>
+      </div>
+
+      <div class="mt-6 flex flex-col md:flex-row gap-3 mb-6">
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3"/></svg>
+          <input id="schemeSearch" type="text" placeholder="Search schemes by name (e.g., Growth Opportunities)" class="w-full pl-10 pr-10 h-11 rounded-2xl border border-slate-200 bg-white focus:border-[#00205B] focus:ring-2 focus:ring-[#00205B]/20 outline-none text-sm" />
+          <button id="clearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 grid place-items-center rounded-full hover:bg-slate-100 text-slate-400 hidden" aria-label="Clear search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <select id="categoryFilter" class="h-11 px-4 rounded-2xl border border-slate-200 bg-white text-sm focus:border-[#00205B] focus:ring-2 focus:ring-[#00205B]/20 outline-none">
+          <option value="all">All Categories</option>
+          <option value="equity">Equity</option>
+          <option value="debt">Debt</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="elss">ELSS</option>
+          <option value="index">Index</option>
+          <option value="gold">Gold</option>
+        </select>
+      </div>
+
+      <div class="flex items-center justify-between mb-3">
+        <div id="schemesCount" class="text-[13px] text-slate-600">Loading schemes...</div>
+      </div>
+
+      <div id="fundGrid" class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+      <div id="sentinel" class="h-10"></div>
+      <div id="loadMoreWrap" class="mt-6 text-center">
+        <button id="loadMoreBtn" class="btn-secondary px-5 h-10 rounded-xl border border-slate-200 text-[13px] font-medium hidden">Load more funds</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Fund Detail Modal -->
+  <div id="fundModal" class="fixed inset-0 z-[80] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm modal-overlay" id="fundOverlay"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="modal-content glass-strong w-full max-w-[860px] rounded-[24px] overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+          <div>
+            <div id="modalSchemeName" class="font-semibold navy text-[17px] leading-tight pr-6"></div>
+            <div id="modalSchemeMeta" class="text-[12px] text-slate-500 mt-0.5"></div>
+          </div>
+          <button id="closeFundModal" aria-label="Close fund details" class="btn-icon w-8 h-8 grid place-items-center rounded-xl hover:bg-slate-100">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="p-5 overflow-auto">
+          <div class="grid md:grid-cols-[1.1fr_.9fr] gap-5">
+            <div class="glass rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[13px] font-medium text-slate-600">NAV Trend (6M)</div>
+                <div id="modalNavNow" class="text-[13px] font-semibold text-[#0067B1]"></div>
+              </div>
+              <div class="h-[220px] relative">
+                <canvas id="navChart"></canvas>
+                <div id="chartLoader" class="absolute inset-0 grid place-items-center bg-white/70 backdrop-blur-sm rounded-xl">
+                  <div class="flex items-center gap-2 text-[13px] text-slate-600"><span class="w-4 h-4 border-2 border-[#0067B1] border-t-transparent rounded-full animate-spin"></span> Loading chart...</div>
+                </div>
+              </div>
+            <div class="space-y-3">
+              <div class="glass rounded-2xl p-4">
+                <div class="text-[12px] text-slate-500">Category</div>
+                <div id="modalCategory" class="font-medium mt-1"></div>
+              </div>
+              <div class="glass rounded-2xl p-4">
+                <div class="text-[12px] text-slate-500">Riskometer</div>
+                <div class="mt-2 h-2 w-full bg-slate-100 rounded-full overflow-hidden"><div id="riskBar" class="h-full w-[70%] bg-gradient-to-r from-[#00A3E0] to-[#0067B1]"></div></div>
+                <div id="riskLabel" class="text-[12px] mt-1.5 text-slate-600">Moderately High</div>
+              </div>
+              <div class="glass rounded-2xl p-4">
+                <div class="text-[12px] text-slate-500 mb-2">Official Documents</div>
+                <div class="flex flex-wrap gap-2">
+                  <a href="https://www.invescomutualfund.com/literature-and-form?tab=factsheet" target="_blank" rel="noopener" class="px-3 h-8 grid place-items-center rounded-lg border border-slate-200 text-[12px] hover:bg-slate-50">Factsheet</a>
+                  <a href="https://www.invescomutualfund.com/literature-and-form?tab=sid" target="_blank" rel="noopener" class="px-3 h-8 grid place-items-center rounded-lg border border-slate-200 text-[12px] hover:bg-slate-50">SID & KIM</a>
+                  <a href="https://www.invescomutualfund.com/nav-and-dividend" target="_blank" rel="noopener" class="px-3 h-8 grid place-items-center rounded-lg border border-slate-200 text-[12px] hover:bg-slate-50">NAV History</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button id="investSipBtn" class="btn-primary px-4 h-10 rounded-xl text-[13px] font-semibold">Start SIP</button>
+            <button id="investOnetimeBtn" class="btn-secondary px-4 h-10 rounded-xl border border-slate-200 text-[13px] font-medium">One-time Invest</button>
+            <a href="https://www.invescomutualfund.com" target="_blank" rel="noopener" class="ml-auto text-[12px] text-[#0067B1] hover:underline">View on official site →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 z-[90] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/70 backdrop-blur-md modal-overlay" id="loginOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="modal-content glass-strong w-full max-w-[420px] rounded-[24px] overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between">
+          <div class="font-semibold navy">Secure Login</div>
+          <button id="closeLogin" aria-label="Close login" class="btn-icon w-8 h-8 grid place-items-center rounded-xl hover:bg-slate-100"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+        </div>
+        <div class="p-6">
+          <div id="loginStep1">
+            <label class="text-[13px] text-slate-600">PAN or Mobile Number</label>
+            <input id="loginId" class="form-input mt-1.5 w-full h-11 rounded-xl border border-slate-200 px-3 text-[14px]" placeholder="Enter PAN or Mobile" />
+            <button id="sendOtp" class="btn-primary w-full h-11 rounded-xl mt-4 font-semibold">Send OTP</button>
+            <p class="text-[11px] text-slate-500 mt-3">By continuing, you agree to Invesco's Terms and Privacy Policy.</p>
+          </div>
+          <div id="loginStep2" class="hidden">
+            <label class="text-[13px] text-slate-600">Enter 6-digit OTP (Demo: 123456)</label>
+            <div class="flex gap-2 mt-2" id="otpInputs">
+              <input maxlength="1" class="otp form-input w-11 h-11 text-center rounded-xl border border-slate-200 text-[18px] font-semibold" />
+              <input maxlength="1" class="otp form-input w-11 h-11 text-center rounded-xl border border-slate-200 text-[18px] font-semibold" />
+              <input maxlength="1" class="otp form-input w-11 h-11 text-center rounded-xl border border-slate-200 text-[18px] font-semibold" />
+              <input maxlength="1" class="otp form-input w-11 h-11 text-center rounded-xl border border-slate-200 text-[18px] font-semibold" />
+              <input maxlength="1" class="otp form-input w-11 h-11 text-center rounded-xl border border-slate-200 text-[18px] font-semibold" />
+              <input maxlength="1" class="otp form-input w-11 h-11 text-center rounded-xl border border-slate-200 text-[18px] font-semibold" />
+            </div>
+            <button id="verifyOtp" class="btn-primary w-full h-11 rounded-xl mt-4 font-semibold">Verify & Login</button>
+            <button id="backToId" class="w-full h-9 mt-2 text-[13px] text-slate-600 hover:text-[#0067B1]">Change PAN/Mobile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Chat -->
+  <div class="fixed bottom-5 right-5 z-[70]">
+    <button id="chatToggle" aria-label="Open Invesco Assistant" class="help-pulse btn-primary w-14 h-14 rounded-2xl grid place-items-center shadow-xl">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V5a2 2 0 0 1 2-2h14a4 4 0 0 1 4 4z"/></svg>
+    </button>
+  </div>
+  <div id="chatPanel" class="fixed bottom-[90px] right-5 w-[340px] max-w-[calc(100vw-2rem)] z-[70] hidden">
+    <div class="glass-strong rounded-[20px] overflow-hidden shadow-2xl">
+      <div class="h-12 px-4 flex items-center justify-between bg-[#00205B] text-white">
+        <div class="flex items-center gap-2 font-medium text-[14px]"><span class="w-2 h-2 rounded-full bg-[#00A3E0] animate-pulse"></span> Invesco Assistant</div>
+        <button id="chatClose" aria-label="Close chat" class="w-7 h-7 grid place-items-center rounded-lg hover:bg-white/10">✕</button>
+      </div>
+      <div id="chatMessages" class="h-[320px] overflow-auto p-3 space-y-2 bg-[#F8FAFC]"></div>
+      <div class="p-2 border-t border-slate-200 bg-white flex gap-2">
+        <input id="chatInput" aria-label="Type your question" placeholder="Ask about NAV, SIP, KYC..." class="flex-1 h-10 rounded-xl border border-slate-200 px-3 text-[14px] focus:outline-none focus:border-[#0067B1]" />
+        <button id="chatSend" aria-label="Send message" class="btn-primary w-10 h-10 rounded-xl grid place-items-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative border-t border-slate-200 mt-20">
+    <div class="absolute inset-0 bg-white/70 backdrop-blur-xl"></div>
+    <div class="relative max-w-[1280px] mx-auto px-4 md:px-8 py-12">
+      <div class="grid md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-[#00205B] grid place-items-center">
+              <svg width="18" height="18" viewBox="0 0 32 32" fill="none"><path d="M7 20.5L13 14.5L17 18.5L25 10.5" stroke="#00A3E0" stroke-width="2.6" stroke-linecap="round"/></svg>
+            </div>
+            <div class="font-bold navy">Invesco Mutual Fund</div>
+          </div>
+          <p class="text-[13px] text-slate-600 mt-3">Invesco Asset Management (India) Pvt. Ltd.</p>
+        </div>
+        <div>
+          <div class="font-semibold navy mb-3">Investor Services</div>
+          <ul class="space-y-2 text-[13px] text-slate-600">
+            <li><button id="footerKyc" class="hover:text-[#0067B1]">KYC Corner</button></li>
+            <li><button id="footerFatca" class="hover:text-[#0067B1]">FATCA</button></li>
+            <li><button id="footerForms" class="hover:text-[#0067B1]">Transaction Forms</button></li>
+            <li><button id="openSipCalc" class="hover:text-[#0067B1]">SIP Calculator</button></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-semibold navy mb-3">Resources</div>
+          <ul class="space-y-2 text-[13px] text-slate-600">
+            <li><a href="https://www.invescomutualfund.com/literature-and-form?tab=factsheet" target="_blank" rel="noopener" class="hover:text-[#0067B1]">Downloads</a></li>
+            <li><a href="https://www.invescomutualfund.com/nav-and-dividend" target="_blank" rel="noopener" class="hover:text-[#0067B1]">NAV & Dividend</a></li>
+            <li><a href="https://www.invescomutualfund.com/literature-and-form?tab=factsheet" target="_blank" rel="noopener" class="hover:text-[#0067B1]">Factsheets</a></li>
+            <li><a href="https://www.invescomutualfund.com/total-expense-ratio" target="_blank" rel="noopener" class="hover:text-[#0067B1]">TER</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-semibold navy mb-3">Connect</div>
+          <ul class="space-y-2 text-[13px] text-slate-600">
+            <li>Toll Free: 1800-209-0007</li>
+            <li>Email: mfservices@invesco.com</li>
+            <li><button id="footerContact" class="hover:text-[#0067B1]">Contact Us</button></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t border-slate-200 text-center">
+        <div class="flex items-center justify-center gap-2 py-3">
+          <div class="w-8 h-8 rounded-full bg-[#00205B] flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <span class="text-sm font-medium text-slate-700">SEBI Registered Mutual Fund | ARN-XXXXX</span>
+        </div>
+        <p class="text-[12px] text-slate-500 leading-relaxed">Mutual Fund investments are subject to market risks, read all scheme related documents carefully.</p>
+        <p class="text-[11px] text-slate-500 mt-2"><span id="copyright-year"></span></p>
+        <script>document.getElementById('copyright-year').textContent = `Copyright © 2022 - ${new Date().getFullYear()} Invesco Mutual Fund. All rights reserved.`;</script>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-[100] hidden">
+    <div class="glass-strong px-4 h-11 rounded-xl flex items-center gap-2 text-[13px] shadow-lg">
+      <span class="w-5 h-5 grid place-items-center rounded-full bg-[#0067B1] text-white">✓</span>
+      <span id="toastMsg">Done</span>
+    </div>
+  </div>
+
+  <!-- SIP Calculator Modal -->
+  <div id="sipModal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="sipOverlay"></div>
+    <div class="relative z-10 max-w-2xl mx-auto mt-16 p-4">
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
+        <div class="bg-[#00205B] text-white px-6 py-4 flex items-center justify-between">
+          <h3 class="text-lg font-semibold">SIP Calculator</h3>
+          <button id="closeSip" class="w-8 h-8 grid place-items-center rounded-full hover:bg-white/20 text-2xl leading-none" aria-label="Close">×</button>
+        </div>
+        <div class="p-6 grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm text-slate-600">Monthly Investment (₹)</label>
+              <input id="sipAmount" type="number" value="10000" min="500" class="w-full mt-1 h-11 px-3 rounded-xl border border-slate-300 focus:border-[#0067B1] outline-none">
+              <input id="sipAmountRange" type="range" min="500" max="100000" step="500" value="10000" class="w-full mt-2 accent-[#0067B1]">
+            </div>
+            <div>
+              <label class="text-sm text-slate-600">Expected Return (% p.a.)</label>
+              <input id="sipReturn" type="number" value="12" min="1" max="30" step="0.5" class="w-full mt-1 h-11 px-3 rounded-xl border border-slate-300 focus:border-[#0067B1] outline-none">
+              <input id="sipReturnRange" type="range" min="1" max="30" step="0.5" value="12" class="w-full mt-2 accent-[#0067B1]">
+            </div>
+            <div>
+              <label class="text-sm text-slate-600">Investment Period (Years)</label>
+              <input id="sipYears" type="number" value="10" min="1" max="30" class="w-full mt-1 h-11 px-3 rounded-xl border border-slate-300 focus:border-[#0067B1] outline-none">
+              <input id="sipYearsRange" type="range" min="1" max="30" value="10" class="w-full mt-2 accent-[#0067B1]">
+            </div>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5">
+            <div class="text-sm text-slate-500">Invested Amount</div>
+            <div id="sipInvested" class="text-2xl font-bold text-[#00205B]">₹12,00,000</div>
+            <div class="text-sm text-slate-500 mt-3">Estimated Returns</div>
+            <div id="sipReturns" class="text-2xl font-bold text-[#0067B1]">₹11,23,000</div>
+            <div class="text-sm text-slate-500 mt-3">Total Value</div>
+            <div id="sipTotal" class="text-3xl font-bold text-[#00A3E0]">₹23,23,000</div>
+            <div class="mt-4 h-32"><canvas id="sipChart"></canvas></div>
+            <p class="text-[11px] text-slate-400 mt-3">Calculations are for illustration only. Mutual Fund investments are subject to market risks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW MODALS -->
+  <!-- Downloads -->
+  <div id="downloadsModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="downloadsOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-3xl rounded-[24px] overflow-hidden max-h-[85vh] flex flex-col">
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-[#00205B] text-white">
+          <div class="font-semibold">Downloads – Literature & Forms</div>
+          <button id="closeDownloads" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button>
+        </div>
+        <div class="p-5 overflow-auto">
+          <div class="flex gap-2 mb-4 flex-wrap">
+            <button data-dtab="factsheet" class="dtab tab-active px-3 h-8 rounded-lg border text-[13px]">Factsheets</button>
+            <button data-dtab="sid" class="dtab px-3 h-8 rounded-lg border text-[13px]">SID/SAI/KIM</button>
+            <button data-dtab="annual" class="dtab px-3 h-8 rounded-lg border text-[13px]">Annual Reports</button>
+            <button data-dtab="forms" class="dtab px-3 h-8 rounded-lg border text-[13px]">Forms</button>
+          </div>
+          <div id="downloadsContent" class="grid sm:grid-cols-2 gap-3 text-[14px]"></div>
+          <p class="text-[11px] text-slate-500 mt-4">Source: invescomutualfund.com • Opens in new tab</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV & Dividend -->
+  <div id="navModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="navOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-5xl rounded-[24px] overflow-hidden max-h-[85vh] flex flex-col">
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-[#00205B] text-white">
+          <div class="font-semibold">NAV & Dividend</div>
+          <button id="closeNav" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button>
+        </div>
+        <div class="p-5 overflow-auto">
+          <div class="flex gap-2 mb-4">
+            <button id="navTabBtn" class="ntab tab-active px-3 h-8 rounded-lg border text-[13px]">Live NAV</button>
+            <button id="divTabBtn" class="ntab px-3 h-8 rounded-lg border text-[13px]">Dividend History</button>
+          </div>
+          <div id="navTableWrap">
+            <div id="navLoading" class="py-10 text-center text-slate-500"><span class="inline-flex items-center gap-2"><span class="w-4 h-4 border-2 border-[#0067B1] border-t-transparent rounded-full animate-spin"></span> Fetching live NAVs...</span></div>
+            <div class="overflow-auto rounded-xl border border-slate-200 hidden" id="navTableContainer">
+              <table class="w-full text-[13px]">
+                <thead class="bg-slate-50 text-slate-600"><tr><th class="text-left px-3 py-2">Scheme</th><th class="text-right px-3 py-2">NAV (₹)</th><th class="text-right px-3 py-2">Date</th><th class="text-right px-3 py-2">1D Change</th></tr></thead>
+                <tbody id="navTableBody" class="divide-y"></tbody>
+              </table>
+            </div>
+          <div id="divTableWrap" class="hidden">
+            <div class="glass rounded-xl p-4 text-[13px] text-slate-600">Dividend history is scheme-specific. View official details on <a href="https://www.invescomutualfund.com/nav-and-dividend" target="_blank" class="text-[#0067B1] underline">NAV & Dividend page</a>.</div>
+            <div class="mt-3 grid sm:grid-cols-2 gap-3" id="divList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div id="contactModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="contactOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-lg rounded-[24px] overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-[#00205B] text-white">
+          <div class="font-semibold">Contact Us</div>
+          <button id="closeContact" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button>
+        </div>
+        <form id="contactForm" class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div><label class="text-[12px] text-slate-600">Name</label><input required name="name" class="form-input w-full h-10 rounded-xl border border-slate-200 px-3 text-[14px] mt-1"></div>
+          <div><label class="text-[12px] text-slate-600">Email</label><input required type="email" name="email" class="form-input w-full h-10 rounded-xl border border-slate-200 px-3 text-[14px] mt-1"></div>
+          <div><label class="text-[12px] text-slate-600">Phone</label><input required name="phone" pattern="[6-9][0-9]{9}" class="form-input w-full h-10 rounded-xl border border-slate-200 px-3 text-[14px] mt-1"></div>
+          <div><label class="text-[12px] text-slate-600">City</label><input name="city" class="form-input w-full h-10 rounded-xl border border-slate-200 px-3 text-[14px] mt-1"></div>
+          <div class="sm:col-span-2"><label class="text-[12px] text-slate-600">Query Type</label>
+            <select name="type" class="form-input w-full h-10 rounded-xl border border-slate-200 px-3 text-[14px] mt-1">
+              <option>New Investment</option><option>SIP</option><option>Redemption</option><option>KYC</option><option>Statement</option><option>Other</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2"><label class="text-[12px] text-slate-600">Message</label><textarea name="message" rows="3" class="form-input w-full rounded-xl border border-slate-200 px-3 py-2 text-[14px] mt-1"></textarea></div>
+          <div class="sm:col-span-2 flex justify-end gap-2 mt-2">
+            <button type="button" id="cancelContact" class="px-4 h-10 rounded-xl border border-slate-200 text-[13px]">Cancel</button>
+            <button class="btn-primary px-5 h-10 rounded-xl text-[13px] font-semibold">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support -->
+  <div id="supportModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="supportOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-md rounded-[24px] overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-[#00205B] text-white">
+          <div class="font-semibold">Investor Support</div>
+          <button id="closeSupport" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button>
+        </div>
+        <div class="p-6 grid gap-3">
+          <a href="tel:18002090007" class="glass rounded-xl p-4 flex items-center justify-between hover:bg-slate-50"><div><div class="font-medium navy">Call Us</div><div class="text-[12px] text-slate-500">1800-209-0007 • Mon–Sat 9am–6pm</div></div><span class="text-[#0067B1]">→</span></a>
+          <a href="mailto:mfservices@invesco.com" class="glass rounded-xl p-4 flex items-center justify-between hover:bg-slate-50"><div><div class="font-medium navy">Email</div><div class="text-[12px] text-slate-500">mfservices@invesco.com</div></div><span class="text-[#0067B1]">→</span></a>
+          <button id="supportChat" class="glass rounded-xl p-4 flex items-center justify-between hover:bg-slate-50 text-left"><div><div class="font-medium navy">Live Chat</div><div class="text-[12px] text-slate-500">Chat with Invesco Assistant</div></div><span class="text-[#0067B1]">→</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KYC -->
+  <div id="kycModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="kycOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-lg rounded-[24px] overflow-hidden">
+        <div class="px-6 py-4 border-b bg-[#00205B] text-white flex justify-between"><div class="font-semibold">KYC Corner</div><button id="closeKyc" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button></div>
+        <div class="p-6 space-y-3 text-[14px]">
+          <p class="text-slate-600">Complete your KYC with any SEBI-registered KRA. Keep PAN, Aadhaar, and address proof ready.</p>
+          <div class="grid gap-2">
+            <a href="https://www.cvlkra.com" target="_blank" class="glass rounded-xl p-3 hover:bg-slate-50 flex justify-between"><span>CVL KRA</span><span class="text-[#0067B1]">Open →</span></a>
+            <a href="https://kra.ndml.in" target="_blank" class="glass rounded-xl p-3 hover:bg-slate-50 flex justify-between"><span>NDML KRA</span><span class="text-[#0067B1]">Open →</span></a>
+            <a href="https://www.karvykra.com" target="_blank" class="glass rounded-xl p-3 hover:bg-slate-50 flex justify-between"><span>Karvy KRA</span><span class="text-[#0067B1]">Open →</span></a>
+            <a href="https://www.camsonline.com" target="_blank" class="glass rounded-xl p-3 hover:bg-slate-50 flex justify-between"><span>CAMS KRA</span><span class="text-[#0067B1]">Open →</span></a>
+          </div>
+          <a href="https://www.invescomutualfund.com/knowledge-center/kyc-corner" target="_blank" class="text-[12px] text-[#0067B1] underline">View official KYC Corner →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FATCA -->
+  <div id="fatcaModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="fatcaOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-md rounded-[24px] overflow-hidden">
+        <div class="px-6 py-4 border-b bg-[#00205B] text-white flex justify-between"><div class="font-semibold">FATCA Declaration</div><button id="closeFatca" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button></div>
+        <form id="fatcaForm" class="p-6 space-y-3">
+          <div><label class="text-[12px]">PAN</label><input required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" class="form-input w-full h-10 rounded-xl border px-3 mt-1" placeholder="ABCDE1234F"></div>
+          <div><label class="text-[12px]">Date of Birth</label><input required type="date" class="form-input w-full h-10 rounded-xl border px-3 mt-1"></div>
+          <div><label class="text-[12px]">Country of Tax Residence</label><select class="form-input w-full h-10 rounded-xl border px-3 mt-1"><option>India</option><option>USA</option><option>UK</option><option>UAE</option><option>Other</option></select></div>
+          <div class="flex justify-end gap-2 pt-2"><button type="button" id="cancelFatca" class="px-4 h-10 rounded-xl border">Cancel</button><button class="btn-primary px-5 h-10 rounded-xl text-[13px] font-semibold">Submit</button></div>
+          <p class="text-[11px] text-slate-500">This is a demo form. Official FATCA: <a href="https://www.invescomutualfund.com/fatca" target="_blank" class="underline text-[#0067B1]">invescomutualfund.com/fatca</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forms -->
+  <div id="formsModal" class="fixed inset-0 z-[85] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/60 backdrop-blur-sm" id="formsOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-2xl rounded-[24px] overflow-hidden max-h-[85vh] flex flex-col">
+        <div class="px-6 py-4 border-b bg-[#00205B] text-white flex justify-between"><div class="font-semibold">Transaction Forms</div><button id="closeForms" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button></div>
+        <div class="p-6 overflow-auto grid sm:grid-cols-2 gap-3 text-[14px]" id="formsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Account Wizard -->
+  <div id="accountModal" class="fixed inset-0 z-[90] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/70 backdrop-blur-md" id="accountOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-2xl rounded-[24px] overflow-hidden">
+        <div class="px-6 py-4 border-b bg-[#00205B] text-white flex justify-between items-center">
+          <div>
+            <div class="font-semibold">Open Investment Account</div>
+            <div class="text-[11px] opacity-80">SEBI-compliant • 5 minutes</div>
+          </div>
+          <button id="closeAccount" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-5" id="accSteps">
+            <div class="step step-active w-8 h-8 rounded-full grid place-items-center text-[12px] border">1</div><div class="flex-1 h-[2px] bg-slate-200"></div>
+            <div class="step w-8 h-8 rounded-full grid place-items-center text-[12px] border">2</div><div class="flex-1 h-[2px] bg-slate-200"></div>
+            <div class="step w-8 h-8 rounded-full grid place-items-center text-[12px] border">3</div><div class="flex-1 h-[2px] bg-slate-200"></div>
+            <div class="step w-8 h-8 rounded-full grid place-items-center text-[12px] border">4</div><div class="flex-1 h-[2px] bg-slate-200"></div>
+            <div class="step w-8 h-8 rounded-full grid place-items-center text-[12px] border">5</div>
+          </div>
+          <div id="accStep1" class="acc-step">
+            <div class="grid sm:grid-cols-3 gap-3">
+              <div><label class="text-[12px]">PAN</label><input id="accPan" class="form-input w-full h-10 rounded-xl border px-3 mt-1" placeholder="ABCDE1234F"></div>
+              <div><label class="text-[12px]">Mobile</label><input id="accMobile" class="form-input w-full h-10 rounded-xl border px-3 mt-1" placeholder="98xxxxxx10"></div>
+              <div><label class="text-[12px]">Email</label><input id="accEmail" type="email" class="form-input w-full h-10 rounded-xl border px-3 mt-1" placeholder="you@email.com"></div>
+            </div>
+          </div>
+          <div id="accStep2" class="acc-step hidden">
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div><label class="text-[12px]">Full Name</label><input id="accName" class="form-input w-full h-10 rounded-xl border px-3 mt-1"></div>
+              <div><label class="text-[12px]">DOB</label><input id="accDob" type="date" class="form-input w-full h-10 rounded-xl border px-3 mt-1"></div>
+              <div class="sm:col-span-2"><label class="text-[12px]">Address</label><input id="accAddr" class="form-input w-full h-10 rounded-xl border px-3 mt-1"></div>
+            </div>
+          </div>
+          <div id="accStep3" class="acc-step hidden">
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div><label class="text-[12px]">Bank Account</label><input id="accBank" class="form-input w-full h-10 rounded-xl border px-3 mt-1"></div>
+              <div><label class="text-[12px]">IFSC</label><input id="accIfsc" class="form-input w-full h-10 rounded-xl border px-3 mt-1" placeholder="HDFC0001234"></div>
+            </div>
+          </div>
+          <div id="accStep4" class="acc-step hidden">
+            <label class="text-[12px]">Upload KYC (PAN & Aadhaar)</label>
+            <div class="mt-2 border-2 border-dashed rounded-xl p-6 text-center">
+              <input type="file" id="accFile" class="hidden" multiple accept=".pdf,.jpg,.png">
+              <button id="accUploadBtn" class="px-4 h-9 rounded-lg border text-[13px]">Choose Files</button>
+              <div id="accFileName" class="text-[12px] text-slate-500 mt-2">No file chosen (demo)</div>
+            </div>
+          </div>
+          <div id="accStep5" class="acc-step hidden text-center py-6">
+            <div class="w-14 h-14 mx-auto rounded-full bg-green-100 grid place-items-center text-green-600 text-2xl">✓</div>
+            <div class="font-semibold navy mt-3 text-[18px]">Application Submitted</div>
+            <div class="text-[13px] text-slate-600 mt-1">Reference: <span id="accRef" class="font-mono text-[#0067B1]"></span></div>
+            <p class="text-[12px] text-slate-500 mt-2">Our team will verify KYC within 24 hours. You'll receive login credentials via SMS/Email.</p>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button id="accPrev" class="px-4 h-10 rounded-xl border text-[13px] hidden">Back</button>
+            <button id="accNext" class="btn-primary px-5 h-10 rounded-xl text-[13px] font-semibold ml-auto">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboardModal" class="fixed inset-0 z-[90] hidden">
+    <div class="absolute inset-0 bg-[#00205B]/70 backdrop-blur-md" id="dashOverlay"></div>
+    <div class="absolute inset-0 grid place-items-center p-4">
+      <div class="glass-strong w-full max-w-3xl rounded-[24px] overflow-hidden">
+        <div class="px-6 py-4 border-b bg-[#00205B] text-white flex justify-between items-center">
+          <div>
+            <div class="font-semibold">My Portfolio</div>
+            <div class="text-[11px] opacity-80" id="dashWelcome">Welcome back</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="dashLogout" class="px-3 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-[12px]">Logout</button>
+            <button id="closeDash" class="w-8 h-8 grid place-items-center rounded-xl hover:bg-white/10">✕</button>
+          </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="glass rounded-2xl p-4"><div class="text-[12px] text-slate-500">Total Investment</div><div id="dashTotalInvest" class="text-[22px] font-bold navy mt-1">₹4,85,000</div></div>
+            <div class="glass rounded-2xl p-4"><div class="text-[12px] text-slate-500">Current Value</div><div id="dashCurrentValue" class="text-[22px] font-bold text-[#0067B1] mt-1">₹5,62,340</div></div>
+            <div class="glass rounded-2xl p-4"><div class="text-[12px] text-slate-500">XIRR</div><div class="text-[22px] font-bold text-[#00A3E0] mt-1">14.2%</div></div>
+          </div>
+          <div class="mt-5 overflow-auto rounded-xl border">
+            <table class="w-full text-[13px]">
+              <thead class="bg-slate-50"><tr class="text-left text-slate-600"><th class="px-3 py-2">Scheme</th><th class="px-3 py-2 text-right">Invested</th><th class="px-3 py-2 text-right">Value</th><th class="px-3 py-2 text-right">Returns</th></tr></thead>
+              <tbody class="divide-y" id="dashHoldings"></tbody>
+            </table>
+          </div>
+          <div class="mt-4 flex gap-2">
+            <button id="dashInvest" class="btn-primary px-4 h-9 rounded-xl text-[13px]">Invest More</button>
+            <button id="dashStatement" class="px-4 h-9 rounded-xl border text-[13px]">Download Statement</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invest Modal - BillDesk -->
+  <div id="investModal" class="fixed inset-0 z-[100] hidden">
+     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="investOverlay"></div>
+     <div class="relative max-w-lg mx-auto mt-12 bg-white rounded-3xl shadow-2xl overflow-hidden">
+       <div class="bg-[#00205B] text-white px-6 py-4 flex justify-between items-center">
+         <div>
+           <h3 class="font-semibold text-[17px]">Invest More</h3>
+           <p class="text-[12px] opacity-80">Secure payment via BillDesk</p>
+         </div>
+         <button id="closeInvest" class="w-8 h-8 grid place-items-center rounded-full hover:bg-white/20 text-2xl leading-none" aria-label="Close">×</button>
+       </div>
+       <div id="investStep1" class="p-6">
+         <label class="text-[13px] text-slate-600">Select Scheme</label>
+         <select id="payScheme" class="w-full h-11 mt-1.5 rounded-xl border border-slate-300 px-3 text-[14px] focus:border-[#0067B1] focus:ring-2 focus:ring-[#0067B1]/20 outline-none">
+           <option>Invesco India Large Cap Fund</option>
+           <option>Invesco India Mid Cap Fund</option>
+           <option>Invesco India Contra Fund</option>
+           <option>Invesco India Growth Opportunities Fund</option>
+           <option>Invesco India ELSS Tax Saver Fund</option>
+         </select>
+         <label class="text-[13px] text-slate-600 mt-4 block">Amount (₹)</label>
+         <input id="payAmount" type="number" value="5000" min="500" class="w-full h-11 mt-1.5 rounded-xl border border-slate-300 px-3 text-[14px] focus:border-[#0067B1] focus:ring-2 focus:ring-[#0067B1]/20 outline-none">
+         <div class="grid grid-cols-3 gap-2 mt-2">
+           <button class="amt-btn px-3 py-2 rounded-xl border border-slate-300 text-[13px] hover:bg-slate-50" data-amt="5000">₹5,000</button>
+           <button class="amt-btn px-3 py-2 rounded-xl border border-slate-300 text-[13px] hover:bg-slate-50" data-amt="10000">₹10,000</button>
+           <button class="amt-btn px-3 py-2 rounded-xl border border-slate-300 text-[13px] hover:bg-slate-50" data-amt="25000">₹25,000</button>
+         </div>
+         <label class="text-[13px] text-slate-600 mt-4 block">Payment Method</label>
+         <div class="space-y-2 mt-1.5">
+           <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50"><input type="radio" name="payMethod" value="netbanking" checked class="accent-[#0067B1]"> <span class="text-[14px]">Net Banking</span></label>
+           <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50"><input type="radio" name="payMethod" value="upi" class="accent-[#0067B1]"> <span class="text-[14px]">UPI</span></label>
+           <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50"><input type="radio" name="payMethod" value="card" class="accent-[#0067B1]"> <span class="text-[14px]">Debit Card</span></label>
+         </div>
+         <button id="proceedPay" class="btn-primary w-full mt-6 h-11 rounded-xl font-medium text-[14px]">Proceed to Pay</button>
+         <p class="text-[11px] text-slate-500 text-center mt-3">You will be redirected to BillDesk secure gateway</p>
+       </div>
+       
+       <div id="investStep2" class="p-8 hidden text-center">
+         <div class="w-16 h-16 mx-auto rounded-full bg-blue-50 grid place-items-center mb-4">
+           <svg class="animate-spin w-8 h-8 text-[#0067B1]" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" opacity="0.25"/><path d="M4 12a8 8 0 0 1 8-8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+         </div>
+         <h4 class="font-semibold navy text-[16px]">Redirecting to BillDesk</h4>
+         <p class="text-[13px] text-slate-500 mt-1">Please do not refresh or close this window</p>
+         <div class="mt-5 p-4 bg-slate-50 rounded-xl text-[12px] text-left border border-slate-200">
+           <div class="flex justify-between py-1"><span class="text-slate-500">Merchant:</span><span class="font-medium">Invesco Mutual Fund</span></div>
+           <div class="flex justify-between py-1"><span class="text-slate-500">Amount:</span><span class="font-medium">₹<span id="payAmtDisplay">5,000</span></span></div>
+           <div class="flex justify-between py-1"><span class="text-slate-500">Transaction ID:</span><span class="font-mono">INV<span id="txnId"></span></span></div>
+         </div>
+       </div>
+       
+       <div id="investStep3" class="p-8 hidden text-center">
+         <div class="w-16 h-16 mx-auto rounded-full bg-green-100 grid place-items-center mb-4">
+           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+         </div>
+         <h4 class="font-semibold text-green-700 text-[17px]">Payment Successful</h4>
+         <p class="text-[13px] text-slate-600 mt-2">Your investment of ₹<span id="successAmt"></span> in <span id="successScheme" class="font-medium"></span> is confirmed.</p>
+         <div class="mt-4 p-4 bg-slate-50 rounded-xl text-[13px] border border-slate-200">
+           <div class="flex justify-between py-1.5"><span class="text-slate-500">Folio:</span><span class="font-mono font-medium">INV/2026/847291</span></div>
+           <div class="flex justify-between py-1.5 border-t border-slate-200"><span class="text-slate-500">Units Allotted:</span><span id="unitsAllotted" class="font-medium">~124.56</span></div>
+           <div class="flex justify-between py-1.5 border-t border-slate-200"><span class="text-slate-500">NAV Date:</span><span id="navDate" class="font-medium"></span></div>
+         </div>
+         <button id="doneInvest" class="btn-primary w-full mt-5 h-11 rounded-xl font-medium text-[14px]">Done</button>
+         <p class="text-[11px] text-slate-500 mt-2">Units will be credited within T+1 working day</p>
+       </div>
+     </div>
+   </div>
+
+<script>
+const CACHE_KEY = 'invesco_funds_v2';
+const CACHE_TTL = 6*60*60*1000;
+const COLORS = { navy:'#00205B', blue:'#0067B1', accent:'#00A3E0' };
+const SESSION_KEY = 'invesco_session';
+
+let allFunds = [], filteredFunds = [], visibleCount = 0;
+const PAGE_SIZE = 12;
+let chartInstance = null;
+let chartJsLoaded = false;
+let pendingInvest = null;
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.remove('hidden');
+  t.firstElementChild.classList.add('toast-enter');
+  setTimeout(()=>{
+    t.firstElementChild.classList.add('toast-exit');
+    setTimeout(()=>{ t.classList.add('hidden'); t.firstElementChild.classList.remove('toast-enter','toast-exit'); }, 300);
+  }, 2200);
+}
+
+function getSession(){ try{ return JSON.parse(localStorage.getItem(SESSION_KEY)||'null'); }catch(e){ return null; } }
+function setSession(s){ localStorage.setItem(SESSION_KEY, JSON.stringify(s)); updateLoginUI(); }
+function clearSession(){ localStorage.removeItem(SESSION_KEY); updateLoginUI(); }
+
+function updateLoginUI(){
+  const s = getSession();
+  const btn = document.getElementById('loginBtnText');
+  if(s){ btn.textContent = 'Account'; document.getElementById('loginBtn').querySelector('svg').outerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`; }
+  else { btn.textContent = 'Login'; }
+}
+
+// Skeletons
+function renderSkeletons(n=12){
+  const grid = document.getElementById('fundGrid');
+  grid.innerHTML = '';
+  for(let i=0;i<n;i++){
+    grid.innerHTML += `
+    <div class="glass rounded-2xl p-4 animate-pulse">
+      <div class="flex items-start justify-between">
+        <div class="w-10 h-10 rounded-xl skeleton"></div>
+        <div class="w-16 h-5 rounded-lg skeleton"></div>
+      </div>
+      <div class="mt-4 space-y-2">
+        <div class="h-4 w-3/4 rounded skeleton"></div>
+        <div class="h-3 w-1/2 rounded skeleton"></div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <div class="h-6 w-20 rounded-lg skeleton"></div>
+        <div class="h-6 w-20 rounded-lg skeleton"></div>
+      </div>
+    </div>`;
+  }
+}
+
+async function getInvescoFunds(){
+  try{
+    const cached = localStorage.getItem(CACHE_KEY);
+    if(cached){
+      const {ts, data} = JSON.parse(cached);
+      if(Date.now()-ts < CACHE_TTL && data?.length){ return data; }
+    }
+  }catch(e){}
+  const res = await fetch('https://api.mfapi.in/mf');
+  const data = await res.json();
+  const invesco = data.filter(f => f.schemeName.toLowerCase().includes('invesco'));
+  invesco.sort((a,b)=> a.schemeName.localeCompare(b.schemeName));
+  try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(), data:invesco})); }catch(e){}
+  return invesco;
+}
+
+function categorize(name){
+  const n = name.toLowerCase();
+  if(n.includes('gold')) return 'gold';
+  if(n.includes('elss') || n.includes('tax')) return 'elss';
+  if(n.includes('hybrid') || n.includes('balanced') || n.includes('equity savings')) return 'hybrid';
+  if(n.includes('gilt') || n.includes('liquid') || n.includes('overnight') || n.includes('bond') || n.includes('credit') || n.includes('money') || n.includes('debt') || n.includes('banking') || n.includes('psu') || n.includes('corporate')) return 'debt';
+  if(n.includes('nifty') || n.includes('sensex') || n.includes('index') || n.includes('etf')) return 'index';
+  return 'equity';
+}
+
+function renderFundCard(f){
+  const cat = categorize(f.schemeName);
+  const badge = cat.charAt(0).toUpperCase()+cat.slice(1);
+  const color = cat==='debt' ? '#0EA5E9' : cat==='hybrid' ? '#8B5CF6' : cat==='elss' ? '#F59E0B' : cat==='index' ? '#10B981' : cat==='gold' ? '#D97706' : '#0067B1';
+  return `
+  <button data-code="${f.schemeCode}" data-name="${f.schemeName.replace(/"/g,'&quot;')}" class="fund-card text-left glass rounded-2xl p-4 card-hover group">
+    <div class="flex items-start justify-between">
+      <div class="w-10 h-10 rounded-xl bg-[${COLORS.navy}] grid place-items-center shadow-md">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 5-5"/></svg>
+      </div>
+      <span class="text-[10px] px-2 py-1 rounded-lg border" style="border-color:${color}33; color:${color}; background:${color}12">${badge}</span>
+    </div>
+    <div class="mt-3 font-medium leading-snug line-clamp-2 min-h-[44px] group-hover:text-[#0067B1] transition-colors navy">${f.schemeName}</div>
+    <div class="mt-3 flex items-center gap-2">
+      <span class="text-[11px] px-2 py-1 rounded-lg bg-slate-100 text-slate-600">Direct</span>
+      <span class="text-[11px] px-2 py-1 rounded-lg bg-slate-100 text-slate-600">Growth</span>
+    </div>
+    <div class="mt-4 flex items-center justify-between">
+      <div class="text-[12px] text-slate-500">Live NAV</div>
+      <div class="text-[13px] font-semibold text-[#0067B1] nav-value" data-code="${f.schemeCode}">—</div>
+    </div>
+  </button>`;
+}
+
+function renderBatch(){
+  const grid = document.getElementById('fundGrid');
+  const next = filteredFunds.slice(visibleCount, visibleCount+PAGE_SIZE);
+  if(visibleCount===0) grid.innerHTML='';
+  
+  if(filteredFunds.length===0){
+    grid.innerHTML = `<div class="col-span-full text-center py-16">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100 grid place-items-center">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3"/></svg>
+      </div>
+      <div class="font-medium navy">No schemes match your search</div>
+      <div class="text-[13px] text-slate-500 mt-1">Try different keywords.</div>
+    </div>`;
+    document.getElementById('loadMoreBtn').classList.add('hidden');
+    updateCount();
+    return;
+  }
+  
+  next.forEach(f=> grid.insertAdjacentHTML('beforeend', renderFundCard(f)));
+  visibleCount += next.length;
+  document.getElementById('loadMoreBtn').classList.toggle('hidden', visibleCount>=filteredFunds.length);
+  attachCardListeners();
+  fetchNavsForVisible();
+  updateCount();
+}
+
+function attachCardListeners(){
+  document.querySelectorAll('.fund-card').forEach(btn=>{
+    if(btn.dataset.bound) return;
+    btn.dataset.bound='1';
+    btn.addEventListener('click', ()=> openFund(btn.dataset.code, btn.dataset.name));
+  });
+}
+
+async function fetchNavsForVisible(){
+  const nodes = document.querySelectorAll('.nav-value');
+  const todo = Array.from(nodes).filter(n=> n.textContent==='—').slice(0,12);
+  await Promise.all(todo.map(async el=>{
+    try{
+      const code = el.dataset.code;
+      const cacheKey = `nav_${code}`;
+      const c = localStorage.getItem(cacheKey);
+      if(c){
+        const {ts,v}=JSON.parse(c);
+        if(Date.now()-ts < CACHE_TTL){ el.textContent = '₹'+v; return; }
+      }
+      const r = await fetch(`https://api.mfapi.in/mf/${code}/latest`);
+      const j = await r.json();
+      const nav = j.data?.[0]?.nav;
+      if(nav){ el.textContent = '₹'+Number(nav).toFixed(2); localStorage.setItem(cacheKey, JSON.stringify({ts:Date.now(), v:Number(nav).toFixed(2)})); }
+    }catch(e){}
+  }));
+}
+
+async function loadQuickNav(){
+  const wrap = document.getElementById('quickNav');
+  wrap.innerHTML = `<div class="h-[72px] grid place-items-center text-slate-500 text-[13px]">Loading...</div>`;
+  await initFunds();
+  const top = filteredFunds.slice(0,3);
+  wrap.innerHTML='';
+  for(const f of top){
+    const div = document.createElement('div');
+    div.className='flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer';
+    div.innerHTML = `<div><div class="text-[13px] font-medium line-clamp-1 navy">${f.schemeName.replace('Invesco ','')}</div><div class="text-[11px] text-slate-500">Direct Growth</div></div><div class="text-[14px] font-semibold text-[#0067B1]" id="qnav-${f.schemeCode}">—</div>`;
+    div.onclick=()=>openFund(f.schemeCode, f.schemeName);
+    wrap.appendChild(div);
+    fetch(`https://api.mfapi.in/mf/${f.schemeCode}/latest`).then(r=>r.json()).then(j=>{ const nav=j.data?.[0]?.nav; if(nav) document.getElementById(`qnav-${f.schemeCode}`).textContent='₹'+Number(nav).toFixed(2); });
+  }
+}
+
+async function initFunds(){
+  if(allFunds.length) return;
+  renderSkeletons();
+  allFunds = await getInvescoFunds();
+  applyFilters();
+}
+
+const schemeSearch = document.getElementById('schemeSearch');
+const categoryFilter = document.getElementById('categoryFilter');
+const clearSearch = document.getElementById('clearSearch');
+let searchTimeout;
+
+function updateCount(){
+  const el = document.getElementById('schemesCount');
+  if(!el) return;
+  const total = filteredFunds.length;
+  el.textContent = total === 0 ? '0 schemes found' : `${total} scheme${total!==1?'s':''} found`;
+}
+
+function applyFilters(){
+  const q = (schemeSearch?.value || '').trim().toLowerCase();
+  const cat = categoryFilter?.value || 'all';
+  
+  filteredFunds = allFunds.filter(f => {
+    const name = f.schemeName;
+    const matchesName = !q || name.toLowerCase().includes(q);
+    const matchesCategory = cat === 'all' || categorize(name)===cat || (cat==='equity' && categorize(name)==='equity');
+    return matchesName && matchesCategory;
+  });
+  
+  visibleCount = 0;
+  renderBatch();
+  if(clearSearch) clearSearch.classList.toggle('hidden', !q);
+}
+
+if(schemeSearch){
+  schemeSearch.addEventListener('input', ()=>{
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(applyFilters, 300);
+    clearSearch?.classList.toggle('hidden', !schemeSearch.value);
+  });
+}
+if(categoryFilter){ categoryFilter.addEventListener('change', applyFilters); }
+if(clearSearch){
+  clearSearch.addEventListener('click', ()=>{
+    schemeSearch.value=''; applyFilters(); clearSearch.classList.add('hidden'); schemeSearch.focus();
+  });
+}
+
+const sentinel = document.getElementById('sentinel');
+const io = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting && visibleCount < filteredFunds.length){ renderBatch(); }
+},{rootMargin:'200px'});
+io.observe(sentinel);
+document.getElementById('loadMoreBtn').onclick = ()=> renderBatch();
+
+function loadChartJs(){
+  if(chartJsLoaded) return Promise.resolve();
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+    s.onload = ()=>{ chartJsLoaded=true; resolve(); };
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function openFund(code, name){
+  document.getElementById('fundModal').classList.remove('hidden');
+  document.getElementById('modalSchemeName').textContent = name;
+  document.getElementById('modalSchemeMeta').textContent = `Scheme Code: ${code} • Invesco Mutual Fund`;
+  document.getElementById('modalCategory').textContent = categorize(name).toUpperCase();
+  document.getElementById('chartLoader').classList.remove('hidden');
+  pendingInvest = {code, name};
+  
+  await loadChartJs();
+  
+  try{
+    const r = await fetch(`https://api.mfapi.in/mf/${code}`);
+    const j = await r.json();
+    const data = j.data?.slice(0,180).reverse() || [];
+    const labels = data.map(d=> d.date);
+    const navs = data.map(d=> Number(d.nav));
+    document.getElementById('modalNavNow').textContent = navs.length ? `₹${navs[navs.length-1].toFixed(2)}` : '—';
+    
+    const ctx = document.getElementById('navChart');
+    if(chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type:'line',
+      data:{ labels, datasets:[{ data:navs, borderColor:'#0067B1', backgroundColor:'rgba(0,103,177,0.12)', borderWidth:2, tension:.35, fill:true, pointRadius:0 }] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{display:false}, y:{grid:{color:'#EEF2F7'}, ticks:{color:'#64748B', font:{size:11}}} } }
+    });
+  }catch(e){ toast('Unable to load chart'); }
+  finally{ document.getElementById('chartLoader').classList.add('hidden'); }
+}
+document.getElementById('closeFundModal').onclick = ()=> document.getElementById('fundModal').classList.add('hidden');
+document.getElementById('fundOverlay').onclick = ()=> document.getElementById('fundModal').classList.add('hidden');
+
+// Invest buttons
+document.getElementById('investSipBtn').onclick = ()=> handleInvest('SIP');
+document.getElementById('investOnetimeBtn').onclick = ()=> handleInvest('Lumpsum');
+function handleInvest(type){
+  const s = getSession();
+  if(!s){
+    document.getElementById('fundModal').classList.add('hidden');
+    document.getElementById('loginModal').classList.remove('hidden');
+    pendingInvest = {...pendingInvest, type};
+    toast('Please login to continue');
+    return;
+  }
+  toast(`Redirecting to ${type} for ${pendingInvest.name.split(' ').slice(0,4).join(' ')}...`);
+  setTimeout(()=>{ document.getElementById('fundModal').classList.add('hidden'); openDashboard(); }, 800);
+}
+
+// Login
+const loginModal = document.getElementById('loginModal');
+document.getElementById('loginBtn').onclick = ()=>{
+  const s = getSession();
+  if(s){ openDashboard(); } else { loginModal.classList.remove('hidden'); }
+};
+document.getElementById('closeLogin').onclick = ()=> loginModal.classList.add('hidden');
+document.getElementById('loginOverlay').onclick = ()=> loginModal.classList.add('hidden');
+document.getElementById('sendOtp').onclick = ()=>{
+  const id = document.getElementById('loginId').value.trim().toUpperCase();
+  const isPan = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(id);
+  const isMobile = /^[6-9]\d{9}$/.test(id);
+  if(!isPan && !isMobile){ toast('Enter valid PAN or 10-digit Mobile'); return; }
+  document.getElementById('loginStep1').classList.add('hidden');
+  document.getElementById('loginStep2').classList.remove('hidden');
+  toast('OTP sent (demo: 123456)');
+  setTimeout(()=> document.querySelectorAll('.otp')[0].focus(), 100);
+};
+document.getElementById('backToId').onclick = ()=>{
+  document.getElementById('loginStep2').classList.add('hidden');
+  document.getElementById('loginStep1').classList.remove('hidden');
+};
+document.getElementById('verifyOtp').onclick = ()=>{
+  const otp = Array.from(document.querySelectorAll('.otp')).map(i=>i.value).join('');
+  if(otp!=='123456'){ toast('Invalid OTP. Use 123456'); return; }
+  const id = document.getElementById('loginId').value.trim().toUpperCase();
+  setSession({id, name:'Rahul Sharma', loginTime:Date.now()});
+  loginModal.classList.add('hidden');
+  document.getElementById('loginStep1').classList.remove('hidden');
+  document.getElementById('loginStep2').classList.add('hidden');
+  document.querySelectorAll('.otp').forEach(i=>i.value='');
+  toast('Logged in successfully');
+  if(pendingInvest?.type){ setTimeout(()=>handleInvest(pendingInvest.type), 500); pendingInvest=null; }
+  else { setTimeout(openDashboard, 600); }
+};
+document.querySelectorAll('.otp').forEach((inp,i,arr)=>{
+  inp.addEventListener('input', ()=>{ if(inp.value && i<5) arr[i+1].focus(); });
+  inp.addEventListener('keydown', e=>{ if(e.key==='Backspace' && !inp.value && i>0) arr[i-1].focus(); });
+});
+
+function openDashboard(){
+  const s = getSession(); if(!s) return;
+  document.getElementById('dashboardModal').classList.remove('hidden');
+  document.getElementById('dashWelcome').textContent = `Welcome back, ${s.name}`;
+  const holdings = [
+    {name:'Invesco India Growth Opportunities Fund', invested:185000, value:221340},
+    {name:'Invesco India Contra Fund', invested:150000, value:178500},
+    {name:'Invesco India ELSS Tax Saver', invested:150000, value:162500},
+  ];
+  document.getElementById('dashHoldings').innerHTML = holdings.map(h=> `<tr><td class="px-3 py-2">${h.name}</td><td class="px-3 py-2 text-right">₹${h.invested.toLocaleString('en-IN')}</td><td class="px-3 py-2 text-right">₹${h.value.toLocaleString('en-IN')}</td><td class="px-3 py-2 text-right text-green-600">+${(((h.value-h.invested)/h.invested)*100).toFixed(1)}%</td></tr>`).join('');
+}
+document.getElementById('closeDash').onclick = ()=> document.getElementById('dashboardModal').classList.add('hidden');
+document.getElementById('dashOverlay').onclick = ()=> document.getElementById('dashboardModal').classList.add('hidden');
+document.getElementById('dashLogout').onclick = ()=>{ clearSession(); document.getElementById('dashboardModal').classList.add('hidden'); toast('Logged out'); };
+document.getElementById('dashInvest').onclick = ()=>{ 
+  document.getElementById('dashboardModal').classList.add('hidden');
+  openInvestModal(); 
+};
+document.getElementById('dashStatement').onclick = ()=> toast('Statement downloaded (demo)');
+
+// --- Invest Modal (BillDesk) ---
+const investModal = document.getElementById('investModal');
+function openInvestModal(){
+  investModal.classList.remove('hidden');
+  showInvestStep(1);
+  document.getElementById('payAmount').value = 5000;
+  document.getElementById('payScheme').selectedIndex = 0;
+  document.querySelectorAll('.amt-btn').forEach(x=> x.classList.remove('bg-[#0067B1]','text-white','border-[#0067B1]'));
+}
+function showInvestStep(n){
+  document.getElementById('investStep1').classList.toggle('hidden', n!==1);
+  document.getElementById('investStep2').classList.toggle('hidden', n!==2);
+  document.getElementById('investStep3').classList.toggle('hidden', n!==3);
+}
+document.getElementById('closeInvest').onclick = ()=> investModal.classList.add('hidden');
+document.getElementById('investOverlay').onclick = ()=> investModal.classList.add('hidden');
+document.querySelectorAll('.amt-btn').forEach(b=>{
+  b.onclick = ()=>{
+    document.getElementById('payAmount').value = b.dataset.amt;
+    document.querySelectorAll('.amt-btn').forEach(x=> x.classList.remove('bg-[#0067B1]','text-white','border-[#0067B1]'));
+    b.classList.add('bg-[#0067B1]','text-white','border-[#0067B1]');
+  };
+});
+document.getElementById('proceedPay').onclick = ()=>{
+  const amount = parseInt(document.getElementById('payAmount').value) || 0;
+  const scheme = document.getElementById('payScheme').value;
+  if(amount < 500){ toast('Minimum investment ₹500'); return; }
+  showInvestStep(2);
+  document.getElementById('payAmtDisplay').textContent = amount.toLocaleString('en-IN');
+  const txn = Date.now().toString().slice(-8);
+  document.getElementById('txnId').textContent = txn;
+  investModal.dataset.amount = amount;
+  investModal.dataset.scheme = scheme;
+  setTimeout(()=>{
+    showInvestStep(3);
+    document.getElementById('successAmt').textContent = amount.toLocaleString('en-IN');
+    document.getElementById('successScheme').textContent = scheme;
+    const units = amount / 42.15;
+    document.getElementById('unitsAllotted').textContent = '~'+units.toFixed(2);
+    const today = new Date();
+    document.getElementById('navDate').textContent = today.toLocaleDateString('en-IN',{day:'2-digit', month:'short', year:'numeric'});
+  }, 3000);
+};
+document.getElementById('doneInvest').onclick = ()=>{
+  const amount = parseInt(investModal.dataset.amount||'0');
+  investModal.classList.add('hidden');
+  const totalEl = document.getElementById('dashTotalInvest');
+  const currEl = document.getElementById('dashCurrentValue');
+  if(totalEl && currEl){
+    const parseVal = (txt)=> parseInt(txt.replace(/[^0-9]/g,''))||0;
+    const newTotal = parseVal(totalEl.textContent) + amount;
+    const newCurr = parseVal(currEl.textContent) + amount;
+    totalEl.textContent = '₹'+newTotal.toLocaleString('en-IN');
+    currEl.textContent = '₹'+newCurr.toLocaleString('en-IN');
+  }
+  toast('Investment successful');
+  setTimeout(()=> openDashboard(), 400);
+};
+
+// Chat
+const chatToggle = document.getElementById('chatToggle');
+const chatPanel = document.getElementById('chatPanel');
+const chatClose = document.getElementById('chatClose');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+chatToggle.onclick = ()=>{ chatPanel.classList.toggle('hidden'); if(!chatPanel.classList.contains('hidden') && !chatMessages.dataset.init){ initChat(); } };
+chatClose.onclick = ()=> chatPanel.classList.add('hidden');
+document.getElementById('supportBtn').onclick = ()=> document.getElementById('supportModal').classList.remove('hidden');
+
+function initChat(){
+  chatMessages.dataset.init='1';
+  addBot(`Hi! I'm your Invesco Assistant. I can help with NAVs, SIP calculations, KYC, FATCA, and account opening. How can I assist?`);
+}
+function addBot(text){
+  chatMessages.insertAdjacentHTML('beforeend', `<div class="message-in flex gap-2"><div class="w-7 h-7 rounded-full bg-[#00205B] grid place-items-center text-white text-[11px]">I</div><div class="glass px-3 py-2 rounded-2xl rounded-tl-sm text-[13px] max-w-[80%]">${text}</div></div>`);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+function addUser(text){
+  chatMessages.insertAdjacentHTML('beforeend', `<div class="message-in flex justify-end"><div class="bg-[#0067B1] text-white px-3 py-2 rounded-2xl rounded-tr-sm text-[13px] max-w-[80%]">${text}</div></div>`);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+function handleChat(){
+  const q = chatInput.value.trim(); if(!q) return;
+  addUser(q); chatInput.value='';
+  setTimeout(()=>{
+    const l = q.toLowerCase();
+    let ans = `You can explore live NAVs above, or visit the <a class="underline" href="https://www.invescomutualfund.com/nav-and-dividend" target="_blank">official NAV page</a>.`;
+    if(l.includes('nav')) ans = `Search any Invesco scheme in "Explore Funds" above – click it to see 6-month NAV chart and latest NAV. Data refreshes every 6 hours via MFAPI.`;
+    if(l.includes('sip')) ans = `Our SIP Calculator helps estimate returns. Click "SIP Calculator" in the hero section. A ₹10,000 monthly SIP for 10 years at 12% can grow to ~₹23L. <button onclick="document.getElementById('heroSipBtn').click()" class="underline text-[#0067B1]">Open Calculator</button>`;
+    if(l.includes('kyc')) ans = `Complete KYC via CVL, NDML, Karvy or CAMS KRA. You need PAN, Aadhaar, and address proof. <button onclick="document.getElementById('footerKyc').click()" class="underline text-[#0067B1]">Open KYC Corner</button>`;
+    if(l.includes('fatca')) ans = `FATCA declaration is mandatory. Submit PAN, DOB and tax residency. <button onclick="document.getElementById('footerFatca').click()" class="underline text-[#0067B1]">Fill FATCA</button>`;
+    if(l.includes('contact')||l.includes('toll')||l.includes('phone')) ans = `Call 1800-209-0007 (Mon-Sat 9am-6pm) or email mfservices@invesco.com. <button onclick="document.getElementById('utilContact').click()" class="underline text-[#0067B1]">Contact Form</button>`;
+    if(l.includes('account')||l.includes('open')) ans = `Open your investment account in 5 minutes with PAN, mobile and bank details. <button onclick="document.getElementById('openAccountBtn').click()" class="underline text-[#0067B1]">Start Now</button>`;
+    if(l.includes('download')||l.includes('factsheet')) ans = `Get factsheets, SID, KIM and forms from Downloads. <button onclick="document.getElementById('utilDownloads').click()" class="underline text-[#0067B1]">Open Downloads</button>`;
+    addBot(ans);
+  }, 600);
+}
+document.getElementById('chatSend').onclick = handleChat;
+chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter') handleChat(); });
+
+// SIP Calculator
+let sipChart = null; let sipInited = false;
+function calculateSIP(){
+  const P = parseFloat(document.getElementById('sipAmount')?.value)||0;
+  const annual = parseFloat(document.getElementById('sipReturn')?.value)||0;
+  const years = parseInt(document.getElementById('sipYears')?.value)||0;
+  const r = annual/100/12; const n = years*12;
+  let FV = r>0 ? P * ((Math.pow(1+r,n)-1)/r) * (1+r) : P*n;
+  const invested = P * n; const returns = Math.max(0, FV - invested);
+  const fmt = v => '₹'+Math.round(v).toLocaleString('en-IN');
+  document.getElementById('sipInvested').textContent = fmt(invested);
+  document.getElementById('sipReturns').textContent = fmt(returns);
+  document.getElementById('sipTotal').textContent = fmt(FV);
+  const ctx = document.getElementById('sipChart');
+  if(ctx){
+    if(sipChart) sipChart.destroy();
+    sipChart = new Chart(ctx, { type:'doughnut', data:{ labels:['Invested','Est. Returns'], datasets:[{ data:[invested, returns], backgroundColor:['#00205B','#00A3E0'], borderWidth:0 }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{display:false} } } });
+  }
+}
+function syncSipInputs(){
+  [['sipAmount','sipAmountRange'],['sipReturn','sipReturnRange'],['sipYears','sipYearsRange']].forEach(([a,b])=>{
+    const elA = document.getElementById(a), elB = document.getElementById(b);
+    if(!elA||!elB) return;
+    elA.addEventListener('input', ()=>{ elB.value = elA.value; calculateSIP(); });
+    elB.addEventListener('input', ()=>{ elA.value = elB.value; calculateSIP(); });
+  });
+}
+async function initSipCalc(){ await loadChartJs(); if(!sipInited){ syncSipInputs(); sipInited = true; } calculateSIP(); }
+
+// Utility Modals
+function openModal(id){ document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
+
+document.getElementById('utilDownloads').onclick = ()=>{ openModal('downloadsModal'); loadDownloads('factsheet'); };
+document.getElementById('closeDownloads').onclick = ()=> closeModal('downloadsModal');
+document.getElementById('downloadsOverlay').onclick = ()=> closeModal('downloadsModal');
+
+document.getElementById('utilNav').onclick = ()=>{ openModal('navModal'); loadNavTable(); };
+document.getElementById('closeNav').onclick = ()=> closeModal('navModal');
+document.getElementById('navOverlay').onclick = ()=> closeModal('navModal');
+
+document.getElementById('utilContact').onclick = ()=> openModal('contactModal');
+document.getElementById('footerContact').onclick = ()=> openModal('contactModal');
+document.getElementById('closeContact').onclick = ()=> closeModal('contactModal');
+document.getElementById('contactOverlay').onclick = ()=> closeModal('contactModal');
+document.getElementById('cancelContact').onclick = ()=> closeModal('contactModal');
+
+document.getElementById('closeSupport').onclick = ()=> closeModal('supportModal');
+document.getElementById('supportOverlay').onclick = ()=> closeModal('supportModal');
+document.getElementById('supportChat').onclick = ()=>{ closeModal('supportModal'); chatPanel.classList.remove('hidden'); if(!chatMessages.dataset.init) initChat(); };
+
+document.getElementById('footerKyc').onclick = ()=> openModal('kycModal');
+document.getElementById('closeKyc').onclick = ()=> closeModal('kycModal');
+document.getElementById('kycOverlay').onclick = ()=> closeModal('kycModal');
+
+document.getElementById('footerFatca').onclick = ()=> openModal('fatcaModal');
+document.getElementById('closeFatca').onclick = ()=> closeModal('fatcaModal');
+document.getElementById('fatcaOverlay').onclick = ()=> closeModal('fatcaModal');
+document.getElementById('cancelFatca').onclick = ()=> closeModal('fatcaModal');
+
+document.getElementById('footerForms').onclick = ()=>{ openModal('formsModal'); loadForms(); };
+document.getElementById('closeForms').onclick = ()=> closeModal('formsModal');
+document.getElementById('formsOverlay').onclick = ()=> closeModal('formsModal');
+
+// Downloads content
+const downloadsData = {
+  factsheet: [
+    {name:'Equity Funds Factsheet - Oct 2024', url:'https://www.invescomutualfund.com/literature-and-form?tab=factsheet'},
+    {name:'Debt Funds Factsheet - Oct 2024', url:'https://www.invescomutualfund.com/literature-and-form?tab=factsheet'},
+    {name:'Hybrid Funds Factsheet', url:'https://www.invescomutualfund.com/literature-and-form?tab=factsheet'},
+  ],
+  sid: [
+    {name:'Scheme Information Document (SID)', url:'https://www.invescomutualfund.com/literature-and-form?tab=sid'},
+    {name:'Statement of Additional Information (SAI)', url:'https://www.invescomutualfund.com/literature-and-form?tab=sid'},
+    {name:'Key Information Memorandum (KIM)', url:'https://www.invescomutualfund.com/literature-and-form?tab=sid'},
+  ],
+  annual: [
+    {name:'Annual Report 2023-24', url:'https://www.invescomutualfund.com/literature-and-form?tab=annual'},
+    {name:'Annual Report 2022-23', url:'https://www.invescomutualfund.com/literature-and-form?tab=annual'},
+  ],
+  forms: [
+    {name:'Common Application Form', url:'https://www.invescomutualfund.com/literature-and-form?tab=forms'},
+    {name:'SIP Registration Form', url:'https://www.invescomutualfund.com/literature-and-form?tab=forms'},
+  ]
+};
+function loadDownloads(tab){
+  document.querySelectorAll('.dtab').forEach(b=> b.classList.toggle('tab-active', b.dataset.dtab===tab));
+  const wrap = document.getElementById('downloadsContent');
+  wrap.innerHTML = downloadsData[tab].map(d=> `<a href="${d.url}" target="_blank" class="glass rounded-xl p-4 hover:bg-slate-50 flex items-center justify-between"><span>${d.name}</span><span class="text-[#0067B1] text-[12px]">PDF →</span></a>`).join('');
+}
+document.querySelectorAll('.dtab').forEach(b=> b.onclick = ()=> loadDownloads(b.dataset.dtab));
+
+// NAV Table
+async function loadNavTable(){
+  document.getElementById('navLoading').classList.remove('hidden');
+  document.getElementById('navTableContainer').classList.add('hidden');
+  await initFunds();
+  const list = allFunds.slice(0,25);
+  const rows = await Promise.all(list.map(async f=>{
+    try{
+      const r = await fetch(`https://api.mfapi.in/mf/${f.schemeCode}`);
+      const j = await r.json();
+      const d0 = j.data?.[0], d1 = j.data?.[1];
+      const nav = d0 ? Number(d0.nav) : 0;
+      const prev = d1 ? Number(d1.nav) : nav;
+      const chg = prev ? ((nav-prev)/prev*100) : 0;
+      return `<tr class="hover:bg-slate-50"><td class="px-3 py-2">${f.schemeName}</td><td class="px-3 py-2 text-right font-medium">₹${nav.toFixed(2)}</td><td class="px-3 py-2 text-right">${d0?.date||'-'}</td><td class="px-3 py-2 text-right ${chg>=0?'text-green-600':'text-red-600'}">${chg>=0?'+':''}${chg.toFixed(2)}%</td></tr>`;
+    }catch(e){ return ''; }
+  }));
+  document.getElementById('navTableBody').innerHTML = rows.join('');
+  document.getElementById('navLoading').classList.add('hidden');
+  document.getElementById('navTableContainer').classList.remove('hidden');
+  
+  // dividend list
+  document.getElementById('divList').innerHTML = list.slice(0,6).map(f=> `<a href="https://www.invescomutualfund.com/nav-and-dividend" target="_blank" class="glass rounded-xl p-3 hover:bg-slate-50"><div class="font-medium text-[13px] navy">${f.schemeName}</div><div class="text-[11px] text-slate-500 mt-1">View dividend history →</div></a>`).join('');
+}
+document.getElementById('navTabBtn').onclick = ()=>{ document.getElementById('navTabBtn').classList.add('tab-active'); document.getElementById('divTabBtn').classList.remove('tab-active'); document.getElementById('navTableWrap').classList.remove('hidden'); document.getElementById('divTableWrap').classList.add('hidden'); };
+document.getElementById('divTabBtn').onclick = ()=>{ document.getElementById('divTabBtn').classList.add('tab-active'); document.getElementById('navTabBtn').classList.remove('tab-active'); document.getElementById('divTableWrap').classList.remove('hidden'); document.getElementById('navTableWrap').classList.add('hidden'); };
+
+// Contact form
+document.getElementById('contactForm').onsubmit = (e)=>{
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+  setTimeout(()=>{
+    btn.disabled = false; btn.textContent = 'Submit';
+    closeModal('contactModal');
+    toast('Thank you, our team will contact in 24 hours');
+    e.target.reset();
+  }, 1200);
+};
+
+// FATCA form
+document.getElementById('fatcaForm').onsubmit = (e)=>{
+  e.preventDefault();
+  closeModal('fatcaModal');
+  toast('FATCA details submitted successfully');
+};
+
+// Forms list
+function loadForms(){
+  const forms = [
+    {name:'Common Application Form', url:'https://www.invescomutualfund.com/docs/default-source/downloads/forms/01-common-application-form.pdf'},
+    {name:'SIP Enrolment Form', url:'https://www.invescomutualfund.com/docs/default-source/downloads/forms/02-sip-enrolment-form.pdf'},
+    {name:'Redemption Form', url:'https://www.invescomutualfund.com/docs/default-source/downloads/forms/03-redemption-form.pdf'},
+    {name:'Switch Form', url:'https://www.invescomutualfund.com/docs/default-source/downloads/forms/04-switch-form.pdf'},
+    {name:'STP Form', url:'https://www.invescomutualfund.com/docs/default-source/downloads/forms/05-stp-form.pdf'},
+    {name:'Nomination Form', url:'https://www.invescomutualfund.com/docs/default-source/downloads/forms/06-nomination-form.pdf'},
+  ];
+  document.getElementById('formsList').innerHTML = forms.map(f=> `<a href="${f.url}" target="_blank" class="glass rounded-xl p-4 hover:bg-slate-50 flex justify-between"><span>${f.name}</span><span class="text-[12px] text-[#0067B1]">Download →</span></a>`).join('');
+}
+
+// Open Account Wizard
+let accStep = 1;
+document.getElementById('openAccountBtn').onclick = ()=> openModal('accountModal');
+document.getElementById('closeAccount').onclick = ()=> closeModal('accountModal');
+document.getElementById('accountOverlay').onclick = ()=> closeModal('accountModal');
+document.getElementById('accUploadBtn').onclick = ()=> document.getElementById('accFile').click();
+document.getElementById('accFile').onchange = (e)=>{ document.getElementById('accFileName').textContent = e.target.files.length ? `${e.target.files.length} file(s) selected` : 'No file chosen (demo)'; };
+
+function updateAccSteps(){
+  document.querySelectorAll('#accSteps .step').forEach((el,i)=>{
+    el.classList.remove('step-active','step-done');
+    if(i+1 < accStep) el.classList.add('step-done');
+    else if(i+1 === accStep) el.classList.add('step-active');
+  });
+  document.querySelectorAll('.acc-step').forEach((el,i)=> el.classList.toggle('hidden', i!==accStep-1));
+  document.getElementById('accPrev').classList.toggle('hidden', accStep===1);
+  document.getElementById('accNext').textContent = accStep===5 ? 'Close' : accStep===4 ? 'Submit Application' : 'Continue';
+}
+document.getElementById('accPrev').onclick = ()=>{ if(accStep>1){ accStep--; updateAccSteps(); } };
+document.getElementById('accNext').onclick = ()=>{
+  if(accStep===1){
+    const pan = document.getElementById('accPan').value.toUpperCase();
+    const mob = document.getElementById('accMobile').value;
+    const email = document.getElementById('accEmail').value;
+    if(!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)){ toast('Enter valid PAN'); return; }
+    if(!/^[6-9]\d{9}$/.test(mob)){ toast('Enter valid mobile'); return; }
+    if(!email.includes('@')){ toast('Enter valid email'); return; }
+  }
+  if(accStep===2){
+    if(!document.getElementById('accName').value){ toast('Enter name'); return; }
+  }
+  if(accStep===4){
+    document.getElementById('accRef').textContent = 'INV' + Math.floor(100000 + Math.random()*900000);
+  }
+  if(accStep===5){ closeModal('accountModal'); accStep=1; updateAccSteps(); toast('Account opening initiated'); return; }
+  accStep++; updateAccSteps();
+};
+updateAccSteps();
+
+// Hero buttons
+document.getElementById('exploreFundsBtn').onclick = ()=>{ document.getElementById('explore').scrollIntoView({behavior:'smooth'}); setTimeout(()=> document.getElementById('schemeSearch').focus(), 400); };
+document.getElementById('heroSipBtn').onclick = ()=>{ openModal('sipModal'); initSipCalc(); };
+document.getElementById('openSipCalc').onclick = ()=>{ openModal('sipModal'); initSipCalc(); };
+document.getElementById('closeSip').onclick = ()=> closeModal('sipModal');
+document.getElementById('sipOverlay').onclick = ()=> closeModal('sipModal');
+
+// Init
+window.addEventListener('DOMContentLoaded', ()=>{
+  renderSkeletons();
+  loadQuickNav();
+  getInvescoFunds().then(()=>{}).catch(()=>{});
+  updateLoginUI();
+});
+
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.querySelectorAll('*').forEach(el=> el.style.animation='none');
+}
+</script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+</html>
